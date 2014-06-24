@@ -1,0 +1,32 @@
+Deploy MongoDB shard cluster on Windows in one click.
+
+Deploy MongoDB shard cluster on Linux is very easy with fork option (http://docs.mongodb.org/manual/reference/program/mongod/).
+But if you want to do that on Windows (yes i know ...), it's a little bit more complicated.
+
+
+In this 
+
+MongoDB shell version: 2.6.3
+connecting to: 127.0.0.1:61017/test
+type "help" for help
+--- Sharding Status ---
+  sharding version: {
+        "_id" : 1,
+        "version" : 4,
+        "minCompatibleVersion" : 4,
+        "currentVersion" : 5,
+        "clusterId" : ObjectId("53a96331481074c25a3fd0d8")
+}
+  shards:
+        {  "_id" : "s1",  "host" : "s1/localhost:37017,localhost:37018,localhost:37019" }
+        {  "_id" : "s2",  "host" : "s2/localhost:47017,localhost:47018,localhost:47019" }
+  databases:
+        {  "_id" : "admin",  "partitioned" : false,  "primary" : "config" }
+        {  "_id" : "test",  "partitioned" : true,  "primary" : "s1" }
+                test.users
+                        shard key: { "_id" : 1 }
+                        chunks:
+                                s1      1
+                        { "_id" : { "$minKey" : 1 } } -->> { "_id" : { "$maxKey" : 1 } } on : s1 Timestamp(1, 0)
+
+mongos>
