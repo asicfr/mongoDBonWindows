@@ -1,32 +1,54 @@
 Deploy MongoDB shard cluster on Windows in one click.
+---------------------------------------------------------------------
 
-Deploy MongoDB shard cluster on Linux is very easy with fork option (http://docs.mongodb.org/manual/reference/program/mongod/).
-But if you want to do that on Windows (yes i know ...), it's a little bit more complicated.
+Deploy MongoDB shard cluster on Linux is very easy with fork option (http://docs.mongodb.org/manual/reference/program/mongod/).<br/>
+But if you want to do that on Windows (yes i know ...), it's a little bit more complicated.<br/>
+<br/>
+In this post, i will show you how to use batch and javascript to easily deploy MongoDB (without Windows service).<br/>
+<br/>
+MongoDB must be already installed, if you need information, read that excellent post : <br/>
+	http://blog.ajduke.in/2013/04/10/install-setup-and-start-mongodb-on-windows/<br/>
+<br/>
+The first problem is to successfully launch mongo executables in "background" from a batch.<br/>
+The syntax is very simple (see http://technet.microsoft.com/en-us/library/bb491005.aspx) :<br/>
+	start /b "title" myExe arg0 arg1 ...<br/>
+I add /b to start an application without opening a new command prompt window.<br/>
+So, for example to launch the mongo shell,  i just create the following command :<br/>
+	start /b "test launching mongo shell" "C:\Program Files\MongoDB 2.6 Standard\bin\mongo"<br/>
+<br/>
+Second step, create a sweet cluster on my computer (nodes can also be remote).<br/>
+Here is the structure of folders : <br/>
+    <br/>
+<script src="https://gist.github.com/asicfr/fbece3bc3bc4630aa8b9.js"></script>
+<br/>
+The last step is to create the complete script to deploy MongoDB that shard cluster.<br/>
+What we have to do (see http://docs.mongodb.org/manual/tutorial/deploy-shard-cluster/ for more details) ?<br/>
+- Start our two replicatSets<br/>
+- Start the Config Server Database Instances<br/>
+- Start the mongos Instances<br/>
+- Add Shards to the Cluster<br/>
+- Enable Sharding for a Database<br/>
+- Enable Sharding for a Collection<br/>
+<br/>
+Here is the script : <br/>
+<script src="https://gist.github.com/asicfr/2c7b99947083d13a9c6b.js"></script>
+<br/>
+This script uses three javascript to interact with mongo shell :<br/>
+- configS1.js : define the members of first replicatSet<br/>
+	<script src="https://gist.github.com/asicfr/207682eeca5a6ac836ea.js"></script>
+- configS2.js : define the members of second replicatSet<br/>
+	<script src="https://gist.github.com/asicfr/9e70a374480dd5d85519.js"></script>
+- configShard.js : configure sharding and show the status of the sharding configuration<br/>
+	<script src="https://gist.github.com/asicfr/12d50de4f792fe165290.js"></script>
+<br/>
+If the script work, you must see the following status : <br/>
+	<script src="https://gist.github.com/asicfr/548941c0b9de7abe17fd.js"></script>
+<br/>
+I added some pauses, especially before the last action (define sharding configuration) otherwise the sharding configure is not applied.<br/>
+If you find a better solution, tell me.<br/>
+<br/>
+All script and folders are available on github :<br/>
+	https://github.com/asicfr/mongoDBonWindows<br/>
+<br/>
 
 
-In this 
-
-MongoDB shell version: 2.6.3
-connecting to: 127.0.0.1:61017/test
-type "help" for help
---- Sharding Status ---
-  sharding version: {
-        "_id" : 1,
-        "version" : 4,
-        "minCompatibleVersion" : 4,
-        "currentVersion" : 5,
-        "clusterId" : ObjectId("53a96331481074c25a3fd0d8")
-}
-  shards:
-        {  "_id" : "s1",  "host" : "s1/localhost:37017,localhost:37018,localhost:37019" }
-        {  "_id" : "s2",  "host" : "s2/localhost:47017,localhost:47018,localhost:47019" }
-  databases:
-        {  "_id" : "admin",  "partitioned" : false,  "primary" : "config" }
-        {  "_id" : "test",  "partitioned" : true,  "primary" : "s1" }
-                test.users
-                        shard key: { "_id" : 1 }
-                        chunks:
-                                s1      1
-                        { "_id" : { "$minKey" : 1 } } -->> { "_id" : { "$maxKey" : 1 } } on : s1 Timestamp(1, 0)
-
-mongos>
