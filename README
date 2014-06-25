@@ -18,8 +18,7 @@ So, for example to launch the mongo shell,  i just create the following command 
 
 Second step, create a sweet cluster on my computer (nodes can also be remote).
 Here is the structure of folders : 
-    
-<script src="https://gist.github.com/asicfr/fbece3bc3bc4630aa8b9.js"></script>
+    https://gist.github.com/asicfr/fbece3bc3bc4630aa8b9
 
 The last step is to create the complete script to deploy MongoDB that shard cluster.
 What we have to do (see http://docs.mongodb.org/manual/tutorial/deploy-shard-cluster/ for more details) ?
@@ -31,22 +30,24 @@ What we have to do (see http://docs.mongodb.org/manual/tutorial/deploy-shard-clu
 - Enable Sharding for a Collection
 
 Here is the script : 
-<script src="https://gist.github.com/asicfr/2c7b99947083d13a9c6b.js"></script>
+    https://gist.github.com/asicfr/2c7b99947083d13a9c6b
 
 This script uses three javascript to interact with mongo shell :
 - configS1.js : define the members of first replicatSet
-	<script src="https://gist.github.com/asicfr/207682eeca5a6ac836ea.js"></script>
+	https://gist.github.com/asicfr/207682eeca5a6ac836ea
 - configS2.js : define the members of second replicatSet
-	<script src="https://gist.github.com/asicfr/9e70a374480dd5d85519.js"></script>
+	https://gist.github.com/asicfr/9e70a374480dd5d85519
 - configShard.js : configure sharding and show the status of the sharding configuration
-	<script src="https://gist.github.com/asicfr/12d50de4f792fe165290.js"></script>
+	https://gist.github.com/asicfr/12d50de4f792fe165290
 
 If the script work, you must see the following status : 
-	<script src="https://gist.github.com/asicfr/548941c0b9de7abe17fd.js"></script>
+	https://gist.github.com/asicfr/548941c0b9de7abe17fd
 
 I added some pauses, especially before the last action (define sharding configuration) otherwise the sharding configure is not applied.
 If you find a better solution, tell me.
 
+Conclusion :
+You no longer have excuses for not testing MongoDB shard cluster on Windows.
 All script and folders are available on github :
 	https://github.com/asicfr/mongoDBonWindows
 
