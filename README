@@ -1,54 +1,54 @@
 Deploy MongoDB shard cluster on Windows in one click.
 ---------------------------------------------------------------------
 
-Deploy MongoDB shard cluster on Linux is very easy with fork option (http://docs.mongodb.org/manual/reference/program/mongod/).<br/>
-But if you want to do that on Windows (yes i know ...), it's a little bit more complicated.<br/>
-<br/>
-In this post, i will show you how to use batch and javascript to easily deploy MongoDB (without Windows service).<br/>
-<br/>
-MongoDB must be already installed, if you need information, read that excellent post : <br/>
-	http://blog.ajduke.in/2013/04/10/install-setup-and-start-mongodb-on-windows/<br/>
-<br/>
-The first problem is to successfully launch mongo executables in "background" from a batch.<br/>
-The syntax is very simple (see http://technet.microsoft.com/en-us/library/bb491005.aspx) :<br/>
-	start /b "title" myExe arg0 arg1 ...<br/>
-I add /b to start an application without opening a new command prompt window.<br/>
-So, for example to launch the mongo shell,  i just create the following command :<br/>
-	start /b "test launching mongo shell" "C:\Program Files\MongoDB 2.6 Standard\bin\mongo"<br/>
-<br/>
-Second step, create a sweet cluster on my computer (nodes can also be remote).<br/>
-Here is the structure of folders : <br/>
-    <br/>
+Deploy MongoDB shard cluster on Linux is very easy with fork option (http://docs.mongodb.org/manual/reference/program/mongod/).
+But if you want to do that on Windows (yes i know ...), it's a little bit more complicated.
+
+In this post, i will show you how to use batch and javascript to easily deploy MongoDB (without Windows service).
+
+MongoDB must be already installed, if you need information, read that excellent post : 
+	http://blog.ajduke.in/2013/04/10/install-setup-and-start-mongodb-on-windows/
+
+The first problem is to successfully launch mongo executables in "background" from a batch.
+The syntax is very simple (see http://technet.microsoft.com/en-us/library/bb491005.aspx) :
+	start /b "title" myExe arg0 arg1 ...
+I add /b to start an application without opening a new command prompt window.
+So, for example to launch the mongo shell,  i just create the following command :
+	start /b "test launching mongo shell" "C:\Program Files\MongoDB 2.6 Standard\bin\mongo"
+
+Second step, create a sweet cluster on my computer (nodes can also be remote).
+Here is the structure of folders : 
+    
 <script src="https://gist.github.com/asicfr/fbece3bc3bc4630aa8b9.js"></script>
-<br/>
-The last step is to create the complete script to deploy MongoDB that shard cluster.<br/>
-What we have to do (see http://docs.mongodb.org/manual/tutorial/deploy-shard-cluster/ for more details) ?<br/>
-- Start our two replicatSets<br/>
-- Start the Config Server Database Instances<br/>
-- Start the mongos Instances<br/>
-- Add Shards to the Cluster<br/>
-- Enable Sharding for a Database<br/>
-- Enable Sharding for a Collection<br/>
-<br/>
-Here is the script : <br/>
+
+The last step is to create the complete script to deploy MongoDB that shard cluster.
+What we have to do (see http://docs.mongodb.org/manual/tutorial/deploy-shard-cluster/ for more details) ?
+- Start our two replicatSets
+- Start the Config Server Database Instances
+- Start the mongos Instances
+- Add Shards to the Cluster
+- Enable Sharding for a Database
+- Enable Sharding for a Collection
+
+Here is the script : 
 <script src="https://gist.github.com/asicfr/2c7b99947083d13a9c6b.js"></script>
-<br/>
-This script uses three javascript to interact with mongo shell :<br/>
-- configS1.js : define the members of first replicatSet<br/>
+
+This script uses three javascript to interact with mongo shell :
+- configS1.js : define the members of first replicatSet
 	<script src="https://gist.github.com/asicfr/207682eeca5a6ac836ea.js"></script>
-- configS2.js : define the members of second replicatSet<br/>
+- configS2.js : define the members of second replicatSet
 	<script src="https://gist.github.com/asicfr/9e70a374480dd5d85519.js"></script>
-- configShard.js : configure sharding and show the status of the sharding configuration<br/>
+- configShard.js : configure sharding and show the status of the sharding configuration
 	<script src="https://gist.github.com/asicfr/12d50de4f792fe165290.js"></script>
-<br/>
-If the script work, you must see the following status : <br/>
+
+If the script work, you must see the following status : 
 	<script src="https://gist.github.com/asicfr/548941c0b9de7abe17fd.js"></script>
-<br/>
-I added some pauses, especially before the last action (define sharding configuration) otherwise the sharding configure is not applied.<br/>
-If you find a better solution, tell me.<br/>
-<br/>
-All script and folders are available on github :<br/>
-	https://github.com/asicfr/mongoDBonWindows<br/>
-<br/>
+
+I added some pauses, especially before the last action (define sharding configuration) otherwise the sharding configure is not applied.
+If you find a better solution, tell me.
+
+All script and folders are available on github :
+	https://github.com/asicfr/mongoDBonWindows
+
 
 
